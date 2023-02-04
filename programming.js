@@ -14,7 +14,8 @@ console.log('***ЗАДАЧИ ПО ПРОГРАММИРОВАНИЮ.***')
  * Возвращает строку, где города разделены запятыми, а в конце стоит точка.
  * Затрачено ~6min c тестами.
  * Улучшено!
- * 1. Можно задать колличество выдаваемых городов, редактируя интервал точками startPoint и endPoint.
+ * 1. Можно задать колличество выдаваемых городов, редактируя интервал точками
+ * isStartPointForMakeString и isEndPointForMakeString.
  * 2. Проверка на корректность передаваемых данных.
  */
 const makeString = (inputArray, start = 0, end = inputArray.length) =>
@@ -44,8 +45,8 @@ const isCitiesArray = [
   'Бронницы'
 ];
 
-const isStartPointForMakeString = 0; // Начальный индекс для массива citiesArray.
-const isEndPointForMakeString = 10; // Конечный индекс для массива citiesArray.
+const isStartPointForMakeString = 0; // Начальный индекс для массива isCitiesArray.
+const isEndPointForMakeString = 10; // Конечный индекс для массива isCitiesArray.
 const isCities = makeString(isCitiesArray, isStartPointForMakeString, isEndPointForMakeString);
 // isCities - отредактируеммый массив городов сконвертированный в строку.
 console.log({ Cities: isCities }); // Вывод в консоль результата.
