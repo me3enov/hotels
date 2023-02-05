@@ -1,5 +1,5 @@
 /** ЗАДАЧИ ПО ПРОГРАММИРОВАНИЮ. */
-console.log('***ЗАДАЧИ ПО ПРОГРАММИРОВАНИЮ.***')
+console.log('***ЗАДАЧИ ПО ПРОГРАММИРОВАНИЮ.***');
 
 /** ВАЖНОЕ ПРИМЕЧАНИЕ. */
 /** Поскольку сразу начал писать на JS, а не TS,
@@ -8,11 +8,7 @@ console.log('***ЗАДАЧИ ПО ПРОГРАММИРОВАНИЮ.***')
  * Исправления делал поверх написанного, из-за этого колличество кода выросло в
  * 2 и более раза, стало совсем не красиво:(
  * Но условия есть условия, оставляю так.
- * Логика была проста - в теории банкомат может принимать несколько валют,
- * но точно известно только то что, банкомат принимает рубли.
- * Поэтому, лучше проверить не подсунут ли ему бумажки.
- * В случаи чего способен переписать на TS в дальнейшем.
-*/
+ */
 
 /** 1. Редактирование массива.
  * Принимает массив городов.
@@ -68,7 +64,7 @@ const roundedToFive = (number) =>
 
 const isNumberForRounded = 41.7; // Число которое нужно округлить.
 const isRounded = roundedToFive(isNumberForRounded); // Округленное число.
-console.log({ Number: isNumberForRounded ,Rounded: isRounded }); // Вывод в консоль результата.
+console.log({ Number: isNumberForRounded, Rounded: isRounded }); // Вывод в консоль результата.
 
 /** 3. Редактор окончаний.
  * Принимает число.
@@ -112,11 +108,11 @@ const isPrime = (number) => {
     }
   }
   return prime;
-}
+};
 
 const isNumberForIsPrime = 2; // Проверяеммое число.
 const isPrimeNumber = isPrime(isNumberForIsPrime); // Ответ является ли число простым.
-console.log({Number: isNumberForIsPrime, 'Is Prime': isPrimeNumber }); // Вывод в консоль результата.
+console.log({ Number: isNumberForIsPrime, 'Is Prime': isPrimeNumber }); // Вывод в консоль результата.
 
 /** 5. Найти элементы которые присутствуют в двух экземплярах в каждом из массиве.
  * Принимает массивы.
@@ -157,7 +153,7 @@ console.log({ Matches: isMatches.join() }); // Вывод в консоль ре
  * Пришлось рисовать матрицу и алгоритм заполнениястобы решить проблему с отступами.
  */
 const multiply = (maxNumber) => {
-  if (typeof maxNumber !== 'number') return console.log('wrong data')
+  if (typeof maxNumber !== 'number') return console.log('wrong data');
   const separator = ' ';
 
   const createArrayForLine = (endPoint, factor = 1) => {
@@ -232,4 +228,4 @@ const multiply = (maxNumber) => {
   return console.log(table);
 };
 
-multiply(10);  // Вывод в консоль результата.
+multiply(10); // Вывод в консоль результата.
