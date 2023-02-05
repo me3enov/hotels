@@ -101,7 +101,7 @@ console.log({ Declension: isDeclension }); // Вывод в консоль ре�
  * Улучшено!
  * Проверка на корректность передаваемых данных.
  */
-function isPrime(number) {
+const isPrime = (number) => {
   if (Number.isInteger(number) !== true) return 'wrong data';
   let squareRoot = Math.floor(Math.sqrt(number));
   let prime = number != 1;
