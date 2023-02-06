@@ -302,22 +302,27 @@ const t = (inputArray) => {
           let index  = 0;
           let plus  = 4;
           if (isUniquePrimeItems.length > 0) {
-            fillRemainders(isUniquePrimeItems, index, 4);
+            fillRemainders(isUniquePrimeItems, index, plus);
             index = isUniquePrimeItems.length * 4;
           }
           if (remainder.length > 1) index = 0; plus = 2;
           fillRemainders(remainder, index, plus);
 
           console.log([
-              [matrix[0], matrix[1], matrix[2]].join(' '),
-              [matrix[3], matrix[4], matrix[5]].join(' '),
-              [matrix[6], matrix[7], matrix[8]].join(' ')
+            [matrix[0], matrix[1], matrix[2]].join(' '),
+            [matrix[3], matrix[4], matrix[5]].join(' '),
+            [matrix[6], matrix[7], matrix[8]].join(' ')
           ].join('\n'))
 
           return checkMatrix();
         }
 
         isMagic(remainder) ? isAllSquare.push(matrix) : null;
+
+        if (isUniquePrimeItems.length > 0) {
+          const arr = permuteArray(isUniquePrimeItems);
+          console.log(arr);
+        }
       }
 
       // Необходимо доделать.
@@ -341,4 +346,4 @@ const t = (inputArray) => {
 const arr1 = [3, 4, 5, 6, 7, 8, 9, 10, 11];
 const arr2 = [100, 25, 4, 20, 10, 40, 5, 32, 12]; // плохой сценарий.
 
-t(arr1);
+//t(arr1);
