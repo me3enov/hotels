@@ -170,11 +170,10 @@ console.log({ Pies: isPies }); // Вывод в консоль результа�
  * В целом код уже находит искомый квадрат, но не выводит его, нужно дописать и оптимизировать.
  */
 const t = (inputArray) => {
-  const matrix = [[], [], [], [], [], [], [], [], []];
   const isAllSimple = [];
   const isUniquePrimeItems = [];
   const isOtherItems = [];
-  const isArrayOfChunks = [];
+  const isAllSquare = [];
   const getUnique = (array) => array.filter((item, index) => index === array.indexOf(item));
 
   const isPrime = (number) => {
@@ -207,8 +206,16 @@ const t = (inputArray) => {
     return sequence.length > 1 ? sequence : [inputNumber];
   };
 
+  const createAllVariables = (inputArray) => {
+    const result = [];
+    permuteArray(inputArray).map((array) => {
+      result.push(createChunks(array, 2));
+    });
+    return result;
+  }
+
   const permuteArray = (inputArray) => {
-    let result = [];
+    const result = [];
     const permute = (array, m = []) => {
       if (array.length === 0) {
         result.push(m);
@@ -241,54 +248,88 @@ const t = (inputArray) => {
     isAllSimple.push(simple);
   });
 
-  const flatArray = isAllSimple.flat();
   const duplicates = getUnique(
-    flatArray.filter((item, index, items) => items.indexOf(item) !== index)
+    isAllSimple.flat().filter((item, index, items) => items.indexOf(item) !== index)
   );
-  const uniqueFlatArray = isAllSimple.flat();
+  const flatArray = isAllSimple.flat();
 
   const createUniqueArray = (inputArray, duplicatedArray, outArray) => {
     inputArray.map((item) => {
       if (!duplicatedArray.includes(item)) outArray.push(item);
     });
   };
-  createUniqueArray(uniqueFlatArray, duplicates, isUniquePrimeItems);
+
+  createUniqueArray(flatArray, duplicates, isUniquePrimeItems);
   createUniqueArray(inputArray, isUniquePrimeItems, isOtherItems);
 
-  let step = 0;
-  isUniquePrimeItems.map((item) => {
-    matrix[step] = item;
-    step += 4;
-  });
-
-  const isAllVariable = permuteArray(isOtherItems);
-
-  // Необходимо передалать - делаю лишний проход по массиву.
-  // Лучше отдавать в таком виде в самом permuteArray!
-  isAllVariable.map((array) => {
-    isArrayOfChunks.push(createChunks(array, 2));
-  });
+  const isAllVariables = createAllVariables(isOtherItems);
 
   const arrangeItems = (allVariables) => {
-    let step = 0;
     for (let i = 0; i < allVariables.length; i++) {
-      step++;
-      const [chunk0, chunk1, chunk2] = allVariables[i];
-      const [a, c] = chunk0,
-        [b, d] = chunk1,
-        [e, f] = chunk2;
-      if (a / c === b / d && a / c === e / f && b / d === e / f) return allVariables[i];
+      let remainder;
+      const [chunk0, chunk1, chunk2, ...other] = allVariables[i];
+      const matrix = ["*", "*", "*", "*", "*", "*", "*", "*", "*"];
+      const [b, d] = chunk0,
+        [c, g] = chunk1,
+        [f, h] = chunk2;
+
+      const fillRemainders = (array, index, plus) => {
+        let indexForRemainders = index;
+        array.map((item) => {
+          matrix[indexForRemainders] = item;
+          indexForRemainders += plus;
+        });
+      }
+
+      if (((b / d) === (f / h))) {
+        matrix[1] = b; matrix[3] = d;
+        matrix[5] = f; matrix[7] = h;
+        if (((g / c) === (f / h))
+        && isUniquePrimeItems.length > 0) {
+          remainder = other.flat();
+          matrix[2] = c; matrix[6] = g;
+        } else {
+          remainder =  chunk1.concat(other).flat();
+        }
+
+        const checkMatrix = () =>
+          matrix[0] * matrix[1] * matrix[2] === matrix[0] * matrix[3] * matrix[6] &&
+          matrix[3] * matrix[4] * matrix[5] === matrix[1] * matrix[4] * matrix[7] &&
+          matrix[6] * matrix[7] * matrix[8] === matrix[2] * matrix[5] * matrix[8] ?
+          true : false;
+
+        const isMagic = (remainder) => {
+          let index  = 0;
+          let plus  = 4;
+          if (isUniquePrimeItems.length > 0) {
+            fillRemainders(isUniquePrimeItems, index, 4);
+            index = isUniquePrimeItems.length * 4;
+          }
+          if (remainder.length > 1) index = 0; plus = 2;
+          fillRemainders(remainder, index, plus);
+
+          console.log([
+              [matrix[0], matrix[1], matrix[2]].join(' '),
+              [matrix[3], matrix[4], matrix[5]].join(' '),
+              [matrix[6], matrix[7], matrix[8]].join(' ')
+          ].join('\n'))
+
+          return checkMatrix();
+        }
+
+        isMagic(remainder) ? isAllSquare.push(matrix) : null;
+      }
+
       // Необходимо доделать.
       // Тут нужна фильтрация исходного массива чтобы отсеить всё лишнее.
     }
   };
 
   // Доделать:
-  // arrangeItems - должен продолжать искать и найти все возможные варианты.
   // Если isUniquePrimeItems.length 1 2 3 добавить варианты при их перемене местами.
-  // реверсировать матрицу по линиям и столбцам - добавить варианты
-  const result = arrangeItems(isArrayOfChunks);
-  console.log(result);
+
+  arrangeItems(isAllVariables);
+  console.log(isAllSquare);
 
   // Необходимо доделать.
   // Если числел больше 3-х нет смысла начинать поиск.
@@ -296,5 +337,8 @@ const t = (inputArray) => {
 
   if (isUniquePrimeItems.length > 3) return 'This is impossible!';
 };
-const arr2 = [3, 4, 5, 6, 7, 8, 9, 10, 11];
-const arr = [100, 25, 4, 20, 10, 40, 5, 32, 12];
+
+const arr1 = [3, 4, 5, 6, 7, 8, 9, 10, 11];
+const arr2 = [100, 25, 4, 20, 10, 40, 5, 32, 12]; // плохой сценарий.
+
+t(arr1);
