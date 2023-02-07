@@ -166,7 +166,7 @@ console.log({ Pies: isPies }); // Вывод в консоль результа�
  * Решение.
  * Уже выводит квадрат, но ужно дописать и оптимизировать.
  */
-function findSquare (inputArray, random = false){
+function findSquare(inputArray, random = false) {
   const isAllSimple = [];
   const isUniquePrimeItems = [];
   const isOtherItems = [];
@@ -177,9 +177,12 @@ function findSquare (inputArray, random = false){
 
   const wordsInColumn = (text) => {
     let words = text.split(' ');
-    let maxLength = Math.max.apply(null, words.map(w => w.length));
-    return words.map(w => ' '.repeat(maxLength - w.length) + w).join('\n');
-  }
+    let maxLength = Math.max.apply(
+      null,
+      words.map((w) => w.length)
+    );
+    return words.map((w) => ' '.repeat(maxLength - w.length) + w).join('\n');
+  };
 
   const isPrime = (number) => {
     let squareRoot = Math.floor(Math.sqrt(number));
@@ -217,7 +220,7 @@ function findSquare (inputArray, random = false){
       result.push(createChunks(array, 2));
     });
     return result;
-  }
+  };
 
   const permuteArray = (inputArray) => {
     const result = [];
@@ -272,7 +275,7 @@ function findSquare (inputArray, random = false){
     });
 
     return outArray;
-  }
+  };
 
   createUniqueArray(flatArray, duplicates, isUniquePrimeItems);
   createUniqueArray(inputArray, isUniquePrimeItems, isOtherItems);
@@ -285,40 +288,44 @@ function findSquare (inputArray, random = false){
     for (let i = 0; i < allVariables.length; i++) {
       let remainder;
       const [chunk0, chunk1, chunk2, ...other] = allVariables[i];
-      const matrix = ["*", "*", "*", "*", "*", "*", "*", "*", "*"];
+      const matrix = ['*', '*', '*', '*', '*', '*', '*', '*', '*'];
       const [b, d] = chunk0,
         [c, g] = chunk1,
         [f, h] = chunk2;
 
-      if (((b / d) === (f / h))) {
-        matrix[1] = b; matrix[3] = d;
-        matrix[5] = f; matrix[7] = h;
-        if (((g / c) === (f / h))
-        && isUniquePrimeItems.length > 0) {
+      if (b / d === f / h) {
+        matrix[1] = b;
+        matrix[3] = d;
+        matrix[5] = f;
+        matrix[7] = h;
+        if (g / c === f / h && isUniquePrimeItems.length > 0) {
           remainder = other.flat();
-          matrix[2] = c; matrix[6] = g;
+          matrix[2] = c;
+          matrix[6] = g;
         } else {
-          remainder =  chunk1.concat(other).flat();
+          remainder = chunk1.concat(other).flat();
         }
 
         const checkMatrix = () =>
           matrix[0] * matrix[1] * matrix[2] === matrix[0] * matrix[3] * matrix[6] &&
           matrix[3] * matrix[4] * matrix[5] === matrix[1] * matrix[4] * matrix[7] &&
-          matrix[6] * matrix[7] * matrix[8] === matrix[2] * matrix[5] * matrix[8] ?
-          true : false;
+          matrix[6] * matrix[7] * matrix[8] === matrix[2] * matrix[5] * matrix[8]
+            ? true
+            : false;
 
         const isMagic = (remainder) => {
-          let index  = 0;
-          let plus  = 4;
+          let index = 0;
+          let plus = 4;
           if (isUniquePrimeItems.length > 0) {
             fillRemainders(isUniquePrimeItems, index, plus, matrix);
             index = isUniquePrimeItems.length * 4;
           }
-          if (remainder.length > 1) index = 0; plus = 2;
+          if (remainder.length > 1) index = 0;
+          plus = 2;
           fillRemainders(remainder, index, plus, matrix);
 
           return checkMatrix();
-        }
+        };
 
         isMagic(remainder) ? isAllSquare.push(matrix) : null;
       }
@@ -332,35 +339,40 @@ function findSquare (inputArray, random = false){
 
   const addInvertedItems = () => {
     const invertedResult = [];
-    const invertedUnique = permuteArray(isUniquePrimeItems).filter( item =>
-      item.toString() !== isUniquePrimeItems.toString());
-    invertedUnique.map(variable => isAllSquare.map(item => {
-      invertedResult.push(fillRemainders(variable, 0, 4, item.slice(0)))
-    }))
+    const invertedUnique = permuteArray(isUniquePrimeItems).filter(
+      (item) => item.toString() !== isUniquePrimeItems.toString()
+    );
+    invertedUnique.map((variable) =>
+      isAllSquare.map((item) => {
+        invertedResult.push(fillRemainders(variable, 0, 4, item.slice(0)));
+      })
+    );
 
     return isAllSquare.concat(invertedResult);
-  }
+  };
 
   const printMatrix = (inputArray) => {
-    inputArray.map(matrix => {
+    inputArray.map((matrix) => {
       const [a, b, c, d, e, f, g, h, i] = matrix;
       const makeSpaces = (item) => wordsInColumn(item.join(' ')).split('\n');
       const column1 = makeSpaces([a, d, g]);
       const column2 = makeSpaces([b, e, h]);
       const column3 = makeSpaces([c, f, i]);
 
-      console.log([
-        [column1[0], column2[0], column3[0]].join(' '),
-        [column1[1], column2[1], column3[1]].join(' '),
-        [column1[2], column2[2], column3[2]].join(' ')
-      ].join('\n'))
-    })
-  }
+      console.log(
+        [
+          [column1[0], column2[0], column3[0]].join(' '),
+          [column1[1], column2[1], column3[1]].join(' '),
+          [column1[2], column2[2], column3[2]].join(' ')
+        ].join('\n')
+      );
+    });
+  };
 
-  const allFound =  isUniquePrimeItems.length > 0 ? addInvertedItems() : isAllSquare;
+  const allFound = isUniquePrimeItems.length > 0 ? addInvertedItems() : isAllSquare;
   const randomMatrix = [allFound[getRandomInt(isAllSquare.length)]];
-  random === true ?  printMatrix(randomMatrix) : printMatrix(allFound);
-};
+  random === true ? printMatrix(randomMatrix) : printMatrix(allFound);
+}
 
 //const arrayForSquare = [3, 4, 5, 6, 7, 8, 9, 10, 11];
 //const arrayForSquare = [100, 25, 4, 20, 10, 40, 5, 32, 12]; // плохой сценарий.
@@ -368,6 +380,6 @@ function findSquare (inputArray, random = false){
 //const randomSquare = findSquare(arrayForSquare, true);
 //const allSquares = findSquare(arrayForSquare, false);
 
-function printSquare(){
-  findSquare(arrayForSquare, true)
+function printSquare() {
+  findSquare(arrayForSquare, true);
 }
