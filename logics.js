@@ -167,7 +167,7 @@ console.log({ Pies: isPies }); // Вывод в консоль результа�
 
 /** 2. Кквадрат произведений 3 х 3.
  * Решение.
- * В целом код уже находит искомый квадрат, но не выводит его, нужно дописать и оптимизировать.
+ * Уже выводит квадрат, но ужно дописать и оптимизировать.
  */
 const findSquare = (inputArray, random = false) => {
   const isAllSimple = [];
@@ -177,6 +177,12 @@ const findSquare = (inputArray, random = false) => {
   const error = () => 'This is impossible!';
   const getUnique = (array) => array.filter((item, index) => index === array.indexOf(item));
   const getRandomInt = (max) => Math.floor(Math.random() * max);
+
+  const wordsInColumn = (text) => {
+    let words = text.split(' ');
+    let maxLength = Math.max.apply(null, words.map(w => w.length));
+    return words.map(w => ' '.repeat(maxLength - w.length) + w).join('\n');
+  }
 
   const isPrime = (number) => {
     let squareRoot = Math.floor(Math.sqrt(number));
@@ -244,12 +250,6 @@ const findSquare = (inputArray, random = false) => {
       return resultArray;
     }, []);
   };
-
-  const wordsInColumn = (text) => {
-    let words = text.split(' ');
-    let maxLength = Math.max.apply(null, words.map(w => w.length));
-    return words.map(w => ' '.repeat(maxLength - w.length) + w).join('\n');
-  }
 
   inputArray.map((number) => {
     const simple = multipliers(number);
