@@ -40,13 +40,10 @@ console.log({ Truth: isHonest }); // Вывод в консоль результ
 
 /** 2. Кквадрат произведений 3 х 3.
  * Не успел полностью написать для него оптимальный алгоритм поиска и вывода всех возможных вариантов:(
- * Поэтому просто вывожу один из вариантов подобранный путем разложения на простые множители.
  * В самом конце файла есть незавершенный и не оптимизированный код с решением этой задачи.
  */
-const printMagicSquare = () => {
-  console.log('7 10 4\n5 11 6\n8  3 9');
-};
-printMagicSquare(); // Вывод в консоль результата.
+const arrayForSquare = [3, 4, 5, 6, 7, 8, 9, 10, 11];
+printSquare(); // Вывод в консоль рандомный квадрат соответствующий заданию.
 
 /** 3. Найти высоту, начиная с которой предметы разрушаются.
  * Улучшено!
@@ -169,7 +166,7 @@ console.log({ Pies: isPies }); // Вывод в консоль результа�
  * Решение.
  * Уже выводит квадрат, но ужно дописать и оптимизировать.
  */
-const findSquare = (inputArray, random = false) => {
+function findSquare (inputArray, random = false){
   const isAllSimple = [];
   const isUniquePrimeItems = [];
   const isOtherItems = [];
@@ -365,8 +362,12 @@ const findSquare = (inputArray, random = false) => {
   random === true ?  printMatrix(randomMatrix) : printMatrix(allFound);
 };
 
-const arrayForSquare = [3, 4, 5, 6, 7, 8, 9, 10, 11];
+//const arrayForSquare = [3, 4, 5, 6, 7, 8, 9, 10, 11];
 //const arrayForSquare = [100, 25, 4, 20, 10, 40, 5, 32, 12]; // плохой сценарий.
 
-const randomSquare = findSquare(arrayForSquare, true);
+//const randomSquare = findSquare(arrayForSquare, true);
 //const allSquares = findSquare(arrayForSquare, false);
+
+function printSquare(){
+  findSquare(arrayForSquare, true)
+}
