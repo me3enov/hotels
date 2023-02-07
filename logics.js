@@ -245,6 +245,12 @@ const findSquare = (inputArray, random = false) => {
     }, []);
   };
 
+  const wordsInColumn = (text) => {
+    let words = text.split(' ');
+    let maxLength = Math.max.apply(null, words.map(w => w.length));
+    return words.map(w => ' '.repeat(maxLength - w.length) + w).join('\n');
+  }
+
   inputArray.map((number) => {
     const simple = multipliers(number);
     isAllSimple.push(simple);
@@ -314,12 +320,6 @@ const findSquare = (inputArray, random = false) => {
           if (remainder.length > 1) index = 0; plus = 2;
           fillRemainders(remainder, index, plus, matrix);
 
-          console.log([
-            [matrix[0], matrix[1], matrix[2]].join(' '),
-            [matrix[3], matrix[4], matrix[5]].join(' '),
-            [matrix[6], matrix[7], matrix[8]].join(' ')
-          ].join('\n'))
-
           return checkMatrix();
         }
 
@@ -344,14 +344,24 @@ const findSquare = (inputArray, random = false) => {
     return isAllSquare.concat(invertedResult);
   }
 
+  const printMatrix = (inputArray) => {
+    const print = (matrix) => {
+      console.log([
+        [matrix[0], matrix[1], matrix[2]].join(' '),
+        [matrix[3], matrix[4], matrix[5]].join(' '),
+        [matrix[6], matrix[7], matrix[8]].join(' ')
+      ].join('\n'))
+    }
+    inputArray.map(item => print(item));
+  }
+
   const allFound =  isUniquePrimeItems.length > 0 ? addInvertedItems() : isAllSquare;
-  return random === false ? allFound[getRandomInt(isAllSquare.length)] : allFound;
+  const randomMatrix = [allFound[getRandomInt(isAllSquare.length)]];
+  random === true ?  printMatrix(randomMatrix) : printMatrix(allFound);
 };
 
 const arrayForSquare = [3, 4, 5, 6, 7, 8, 9, 10, 11];
 //const arrayForSquare = [100, 25, 4, 20, 10, 40, 5, 32, 12]; // плохой сценарий.
 
-const randomSquare = findSquare(arrayForSquare, false);
-const allSquares = findSquare(arrayForSquare, true);
-
-console.log(randomSquare); // Вывод в консоль результата.
+const randomSquare = findSquare(arrayForSquare, true);
+//const allSquares = findSquare(arrayForSquare, false);
