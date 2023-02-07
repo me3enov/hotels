@@ -322,9 +322,9 @@ function findSquare (inputArray, random = false){
 
         isMagic(remainder) ? isAllSquare.push(matrix) : null;
       }
-
-      // Необходимо доделать.
-      // Тут нужна фильтрация исходного массива чтобы отсеить всё лишнее.
+      // Нужна фильтрация исходного массива чтобы отсеить всё лишнее.
+      // Нужно доделать рекурсией, чтобы уменьшить колличество проходов
+      // const filteredVariable = isAllVariables.slice(0).filter( variable => variable[0].toString() !== chunk0.toString());
     }
   };
 
