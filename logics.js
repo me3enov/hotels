@@ -163,8 +163,11 @@ const isPies = howManyPies(isUsersForPies);
 console.log({ Pies: isPies }); // Вывод в консоль результата.
 
 /** 2. Кквадрат произведений 3 х 3.
- * Решение.
- * Уже выводит квадрат, но ужно дописать и оптимизировать.
+ * Универсальное решение для поиска всех возможных вариантов с призвольным массивом чисел.
+ * Уже все находит, но ужно оптимизировать.
+ * Принимает массив и булевое значение вторым параметром.
+ * если false то выводит все возможные варианты.
+ * Если true то рандомный из найденных.
  */
 function findSquare(inputArray, random = false) {
   const isAllSimple = [];
@@ -377,8 +380,8 @@ function findSquare(inputArray, random = false) {
 //const arrayForSquare = [3, 4, 5, 6, 7, 8, 9, 10, 11];
 //const arrayForSquare = [100, 25, 4, 20, 10, 40, 5, 32, 12]; // плохой сценарий.
 
-//const randomSquare = findSquare(arrayForSquare, true);
-//const allSquares = findSquare(arrayForSquare, false);
+//const randomSquare = findSquare(arrayForSquare, true); //
+//const allSquares = findSquare(arrayForSquare, false); // плохой сценарий.
 
 function printSquare() {
   findSquare(arrayForSquare, true);
