@@ -174,7 +174,9 @@ const findSquare = (inputArray, random = false) => {
   const isUniquePrimeItems = [];
   const isOtherItems = [];
   const isAllSquare = [];
+  const error = () => 'This is impossible!';
   const getUnique = (array) => array.filter((item, index) => index === array.indexOf(item));
+  const getRandomInt = (max) => Math.floor(Math.random() * max);
 
   const isPrime = (number) => {
     let squareRoot = Math.floor(Math.sqrt(number));
@@ -274,6 +276,8 @@ const findSquare = (inputArray, random = false) => {
 
   const isAllVariables = createAllVariables(isOtherItems);
 
+  if (isUniquePrimeItems.length > 3) return error();
+
   const arrangeItems = (allVariables) => {
     for (let i = 0; i < allVariables.length; i++) {
       let remainder;
@@ -340,14 +344,8 @@ const findSquare = (inputArray, random = false) => {
     return isAllSquare.concat(invertedResult);
   }
 
-  const result = isUniquePrimeItems.length > 0 ? addInvertedItems() : isAllSquare;
-
-  console.log(result);
-
-  // Необходимо доделать.
-  // Если числел больше 3-х нет смысла начинать поиск.
-
-  if (isUniquePrimeItems.length > 3) return 'This is impossible!';
+  const allFound =  isUniquePrimeItems.length > 0 ? addInvertedItems() : isAllSquare;
+  return random === false ? allFound[getRandomInt(isAllSquare.length)] : allFound;
 };
 
 const arrayForSquare = [3, 4, 5, 6, 7, 8, 9, 10, 11];
