@@ -169,7 +169,7 @@ console.log({ Pies: isPies }); // Вывод в консоль результа�
  * Решение.
  * В целом код уже находит искомый квадрат, но не выводит его, нужно дописать и оптимизировать.
  */
-const t = (inputArray) => {
+const findSquare = (inputArray, random = false) => {
   const isAllSimple = [];
   const isUniquePrimeItems = [];
   const isOtherItems = [];
@@ -259,6 +259,16 @@ const t = (inputArray) => {
     });
   };
 
+  const fillRemainders = (inputArray, index, plus, outArray) => {
+    let indexForRemainders = index;
+    inputArray.map((item) => {
+      outArray[indexForRemainders] = item;
+      indexForRemainders += plus;
+    });
+
+    return outArray;
+  }
+
   createUniqueArray(flatArray, duplicates, isUniquePrimeItems);
   createUniqueArray(inputArray, isUniquePrimeItems, isOtherItems);
 
@@ -272,14 +282,6 @@ const t = (inputArray) => {
       const [b, d] = chunk0,
         [c, g] = chunk1,
         [f, h] = chunk2;
-
-      const fillRemainders = (array, index, plus) => {
-        let indexForRemainders = index;
-        array.map((item) => {
-          matrix[indexForRemainders] = item;
-          indexForRemainders += plus;
-        });
-      }
 
       if (((b / d) === (f / h))) {
         matrix[1] = b; matrix[3] = d;
@@ -302,11 +304,11 @@ const t = (inputArray) => {
           let index  = 0;
           let plus  = 4;
           if (isUniquePrimeItems.length > 0) {
-            fillRemainders(isUniquePrimeItems, index, plus);
+            fillRemainders(isUniquePrimeItems, index, plus, matrix);
             index = isUniquePrimeItems.length * 4;
           }
           if (remainder.length > 1) index = 0; plus = 2;
-          fillRemainders(remainder, index, plus);
+          fillRemainders(remainder, index, plus, matrix);
 
           console.log([
             [matrix[0], matrix[1], matrix[2]].join(' '),
@@ -318,11 +320,6 @@ const t = (inputArray) => {
         }
 
         isMagic(remainder) ? isAllSquare.push(matrix) : null;
-
-        if (isUniquePrimeItems.length > 0) {
-          const arr = permuteArray(isUniquePrimeItems);
-          console.log(arr);
-        }
       }
 
       // Необходимо доделать.
@@ -330,20 +327,33 @@ const t = (inputArray) => {
     }
   };
 
-  // Доделать:
-  // Если isUniquePrimeItems.length 1 2 3 добавить варианты при их перемене местами.
-
   arrangeItems(isAllVariables);
-  console.log(isAllSquare);
+
+  const addInvertedItems = () => {
+    const invertedResult = [];
+    const invertedUnique = permuteArray(isUniquePrimeItems).filter( item =>
+      item.toString() !== isUniquePrimeItems.toString());
+    invertedUnique.map(variable => isAllSquare.map(item => {
+      invertedResult.push(fillRemainders(variable, 0, 4, item.slice(0)))
+    }))
+
+    return isAllSquare.concat(invertedResult);
+  }
+
+  const result = isUniquePrimeItems.length > 0 ? addInvertedItems() : isAllSquare;
+
+  console.log(result);
 
   // Необходимо доделать.
   // Если числел больше 3-х нет смысла начинать поиск.
-  const tempt = isUniquePrimeItems.length > 3 ? 'possible!' : 'This is impossible!';
 
   if (isUniquePrimeItems.length > 3) return 'This is impossible!';
 };
 
-const arr1 = [3, 4, 5, 6, 7, 8, 9, 10, 11];
-const arr2 = [100, 25, 4, 20, 10, 40, 5, 32, 12]; // плохой сценарий.
+const arrayForSquare = [3, 4, 5, 6, 7, 8, 9, 10, 11];
+//const arrayForSquare = [100, 25, 4, 20, 10, 40, 5, 32, 12]; // плохой сценарий.
 
-//t(arr1);
+const randomSquare = findSquare(arrayForSquare, false);
+const allSquares = findSquare(arrayForSquare, true);
+
+console.log(randomSquare); // Вывод в консоль результата.
