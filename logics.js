@@ -363,5 +363,5 @@ const findSquare = (inputArray, random = false) => {
 const arrayForSquare = [3, 4, 5, 6, 7, 8, 9, 10, 11];
 //const arrayForSquare = [100, 25, 4, 20, 10, 40, 5, 32, 12]; // плохой сценарий.
 
-const randomSquare = findSquare(arrayForSquare, true);
+//const randomSquare = findSquare(arrayForSquare, true);
 //const allSquares = findSquare(arrayForSquare, false);
